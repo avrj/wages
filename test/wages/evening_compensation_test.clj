@@ -10,7 +10,7 @@
   
 (deftest evening-compensation-end-time-test
     (testing "Shift duration in hours should be zero if shift ends before it starts"
-        (is (= (evening-compensation-end-time-final (t/date-time 1986 10 2 13 30)) (t/date-time 1986 10 3 6)))))
+        (is (= (evening-compensation-end-time (t/date-time 1986 10 2 13 30)) (t/date-time 1986 10 3 6)))))
 
 (deftest evening-compensation-hours-zero-test
     (testing "No evening compensation if shift is only in the range of regular worktimes"
