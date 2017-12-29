@@ -24,12 +24,15 @@
         total-daily-pay (calculate-total-daily-pay start end)]
     (assoc workshift :total-daily-pay total-daily-pay)))
 
+(defn construct-monthly-wage-map-from-workshift [[id workshift]]
+  {:id    id
+   :name  (get (first workshift) (keyword "Person Name")) 
+   :monthly-wage (apply + (map :total-daily-pay workshift))})
+
 (defn transform-to-monthly-wages [workshifts]
   (->> workshifts
     (group-by (keyword "Person ID")) 
-    (map (fn [[id workshift]]
-          {:id id :name (get (first workshift) (keyword "Person Name")) :monthly-wage (apply + (map :total-daily-pay workshift))}))))
-
+    (map construct-monthly-wage-map-from-workshift)))
 
 (defn parse-time-from-workshift [workshift key]
   (update workshift key #(parse-time %)))
