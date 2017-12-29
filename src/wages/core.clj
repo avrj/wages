@@ -47,7 +47,7 @@
     (dissoc :Date)
     (assoc-total-daily-pay)))
 
-(defn filter-by-year-and-month [date year month]
+(defn date-within-year-and-month? [date year month]
   "Returns true if date is within the given year and month"
   (let [first-day-of-the-month (t/first-day-of-the-month year month)
         last-day-of-the-month (t/last-day-of-the-month year month)
@@ -59,9 +59,23 @@
   (-> workshift
     (update :Date #(parse-date %))))     
 
-(def wages
-  (println (apply str (interpose "\n" (map #(str (get % :id) ", " (get % :name) ", $" (get % :monthly-wage)) (transform-to-monthly-wages (mapv parse-times-from-workshift (filter #(filter-by-year-and-month (get % :Date) 2014 3) (mapv parse-date-from-workshift workshifts)))))))))
+(defn format-workshift [workshift]
+  "Formats workshift to readable format"
+  (let [id (get workshift :id)
+        name (get workshift :name)
+        monthly-wage (get workshift :monthly-wage)]
+    (str id ", " name ", $" monthly-wage)))
 
+(def wages
+  (->> workshifts
+    (mapv parse-date-from-workshift)
+    (filter #(date-within-year-and-month? (get % :Date) 2014 3))
+    (mapv parse-times-from-workshift)
+    (transform-to-monthly-wages)
+    (map format-workshift)
+    (interpose "\n")
+    (apply str)))
+  
 (defn -main
   [& args]
   (println wages))
