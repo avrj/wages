@@ -1,12 +1,16 @@
 [![Build Status](https://travis-ci.com/avrj/wages.svg?token=YppLYpdczdMFqyvXVxYa&branch=master)](https://travis-ci.com/avrj/wages)
 
-# Build project
+# Prerequisites
+* Leiningen
+* Java
+
+# Run project
 `lein run`
 
 # Run tests
 `lein test`
 
-# Make executable
+# Build executable
 `lein uberjar`
 
 # Run executable
