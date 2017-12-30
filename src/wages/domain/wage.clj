@@ -1,8 +1,8 @@
-(ns wages.wages
+(ns wages.domain.wage
   (:require [clj-time.core :as t]
-            [wages.evening-compensation :refer :all]
-            [wages.overtime :refer :all]
-            [wages.workshift :refer :all]))
+            [wages.domain.evening-compensation :refer :all]
+            [wages.domain.overtime :refer :all]
+            [wages.domain.workshift :refer :all]))
   
 (defn calculate-total-daily-pay [workshift-start-time workshift-end-time]
     (let [working-hours (shift-duration-in-hours workshift-start-time workshift-end-time)

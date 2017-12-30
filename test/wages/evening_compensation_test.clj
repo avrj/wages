@@ -1,15 +1,15 @@
 (ns wages.evening-compensation-test
     (:require [clojure.test :refer :all]
-              [wages.evening-compensation :refer :all]
+              [wages.domain.evening-compensation :refer :all]
               [clj-time.core :as t]))
   
 (deftest evening-compensation-time-test
-    (testing "Shift duration in hours should be zero if shift ends before it starts"
+    (testing "Should replace evening compensation start-time's y/m/d date with given date"
         (is (= (evening-compensation-time (t/date-time 1986 10 2 13 30) :start-time) (t/date-time 1986 10 2 19)))))
 
   
 (deftest evening-compensation-end-time-test
-    (testing "Shift duration in hours should be zero if shift ends before it starts"
+    (testing "Should replace evening compensation end-time's y/m/d date with given date"
         (is (= (evening-compensation-end-time (t/date-time 1986 10 2 13 30)) (t/date-time 1986 10 3 6)))))
 
 (deftest evening-compensation-hours-zero-test

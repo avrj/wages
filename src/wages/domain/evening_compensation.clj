@@ -1,8 +1,8 @@
-(ns wages.evening-compensation
+(ns wages.domain.evening-compensation
     (:require [clj-time.core :as t]
-              [wages.rate :refer :all]
-              [wages.date :refer :all]
-              [wages.workshift :refer :all]))
+              [wages.rates.rate :refer :all]
+              [wages.util.date :refer :all]
+              [wages.domain.workshift :refer :all]))
 
 (def ^:const ^:private evening-compensation-wage
     (get evening-compensation :wage))

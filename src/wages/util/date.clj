@@ -1,4 +1,4 @@
-(ns wages.date
+(ns wages.util.date
     (:require [clj-time.core :as t]
               [clj-time.format :as f]))
 
@@ -11,7 +11,7 @@
 
 (defn parse-date [date]
     (f/parse date-formatter date))
-
+        
 (defn to-hours [minutes]
     (/ minutes 60))
 
@@ -22,3 +22,15 @@
 (defn interval->hours 
     [interval]
     (to-hours (t/in-minutes interval)))
+
+(defn shift-date-by-day [date]
+    (t/plus date (t/days 1)))
+
+
+(defn date-within-year-and-month? [date year month]
+    "Returns true if date is within the given year and month"
+    (let [first-day-of-the-month (t/first-day-of-the-month year month)
+            last-day-of-the-month (t/last-day-of-the-month year month)
+            date-range (t/interval first-day-of-the-month last-day-of-the-month)]
+        (t/within? date-range date)))
+

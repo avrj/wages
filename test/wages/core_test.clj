@@ -1,6 +1,6 @@
 (ns wages.core-test
   (:require [clojure.test :refer :all]
-            [wages.workshift :refer :all]
+            [wages.domain.workshift :refer :all]
             [clj-time.core :as t]))
 
 (deftest negative-duration-test

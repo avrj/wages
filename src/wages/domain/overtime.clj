@@ -1,24 +1,24 @@
-(ns wages.overtime
+(ns wages.domain.overtime
     (:require [clj-time.core :as t]
-              [wages.rate :refer :all]
-              [wages.date :refer :all]
-              [wages.workshift :refer :all]))
+              [wages.rates.rate :refer :all]
+              [wages.util.date :refer :all]
+              [wages.domain.workshift :refer :all]))
 
 (defn overtime-wage [overtime-compensation-rate]
   (let [overtime-compensation-percent (get overtime-compensation-rate :overtime-compensation-percent)]
     (* hourly-wage overtime-compensation-percent)))
   
-(defn overtime-addition [overtime-compensation-rate workshift-start-date key]
-  (let [overtime-hours (get overtime-compensation-rate key)
-        full-hours     (+ regular-working-hours overtime-hours)
+(defn overtime-date [overtime-hours workshift-start-date]
+    "Returns the date of overtime start/end"
+  (let [full-hours     (+ regular-working-hours overtime-hours)
         hours          (t/hours full-hours)]
     (t/plus workshift-start-date hours)))
 
 (defn- overtime-start-time [overtime-compensation-rate workshift-start-date]
-  (overtime-addition overtime-compensation-rate workshift-start-date :overtime-compensation-start))
+  (overtime-date (get overtime-compensation-rate :overtime-compensation-start) workshift-start-date))
   
 (defn- overtime-end-time [overtime-compensation-rate workshift-start-date]
-  (overtime-addition overtime-compensation-rate workshift-start-date :overtime-compensation-end))
+  (overtime-date (get overtime-compensation-rate :overtime-compensation-end) workshift-start-date))
 
 (defn overlap-between-shift-and-overtime [workshift-start-date workshift-end-date overtime-compensation-rate]
     (let [calculated-overtime-start-time (overtime-start-time overtime-compensation-rate workshift-start-date)

@@ -1,6 +1,6 @@
 (ns wages.wages-test
     (:require [clojure.test :refer :all]
-              [wages.wages :refer :all]
+              [wages.domain.wage :refer :all]
               [clj-time.core :as t]))
   
 (deftest calculate-total-daily-pay-in-regular-worktime-test
