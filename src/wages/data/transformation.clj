@@ -1,6 +1,7 @@
 (ns wages.data.transformation
     (:require [clj-time.core :as t]
               [wages.util.date :refer :all]
+              [wages.util.currency :refer :all]
               [wages.domain.wage :refer :all]
               [wages.domain.workshift :refer :all]))
     
@@ -20,7 +21,7 @@
 (defn construct-monthly-wage-map-from-workshift [[id workshift]]
     {:id    id
      :name  (get (first workshift) (keyword "Person Name")) 
-     :monthly-wage (apply + (map :total-daily-pay workshift))})
+     :monthly-wage (round-to-nearest-cents (apply + (map :total-daily-pay workshift)))})
 
 (defn transform-to-monthly-wages [workshifts]
     (->> workshifts
