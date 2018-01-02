@@ -9,7 +9,7 @@
 
 (deftest calculate-total-daily-pay-with-overtime-test
 (testing "Calculates total daily pay correctly when shift goes overtime"
-    (is (= (calculate-total-daily-pay (t/date-time 1986 10 2 8) (t/date-time 1986 10 2 17)) 41.625M))))
+    (is (= (calculate-total-daily-pay (t/date-time 1986 10 2 8) (t/date-time 1986 10 2 17)) 40.50M))))
 
 
 (deftest calculate-total-daily-pay-with-evening-compensation-test
@@ -18,8 +18,8 @@
     
 (deftest calculate-total-daily-pay-in-overnight-shift-test
     (testing "Calculates total daily pay corretcly when shift lasts overnight"
-        (is (= (calculate-total-daily-pay (t/date-time 1986 10 2 18) (t/date-time 1986 10 3 07)) 82.375M))))
+        (is (= (calculate-total-daily-pay (t/date-time 1986 10 2 18) (t/date-time 1986 10 3 07)) 72.25M))))
 
 (deftest calculate-total-daily-pay-with-overtime-test-2
     (testing "Calculates total daily pay correctly when shift goes overtime (2)"
-        (is (= (calculate-total-daily-pay (t/date-time 1986 10 2 6) (t/date-time 1986 10 2 18)) 59.625M))))
+        (is (= (calculate-total-daily-pay (t/date-time 1986 10 2 6) (t/date-time 1986 10 2 18)) 54.00M))))

@@ -43,3 +43,6 @@
 
 (defn calculate-overtime-wage [workshift-start-date workshift-end-date]
     (bigdec (apply + (map #(calculate-single-overtime-wage workshift-start-date workshift-end-date %) overtime-compensation-rates))))
+
+(defn calculate-overtime-wage-based-on-overtime-hours [overtime-hours]
+    (bigdec (apply + (map (fn [overtime-compensation] (if (<= (+ regular-working-hours (get overtime-compensation :overtime-compensation-start)) overtime-hours) (* hourly-wage (get overtime-compensation :overtime-compensation-percent) (- (if (> (get overtime-compensation :overtime-compensation-end) overtime-hours) (- overtime-hours regular-working-hours) (get overtime-compensation :overtime-compensation-end)) (get overtime-compensation :overtime-compensation-start))) 0) ) overtime-compensation-rates))))

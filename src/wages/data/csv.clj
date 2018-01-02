@@ -3,8 +3,8 @@
               [clojure-csv.core :as csv]
               [semantic-csv.core :as sc]))
 
-(defn parse-csv-to-workshifts []
-    (into [] (with-open [in-file (io/reader "HourList201403.csv")]
+(defn parse-csv-to-workshifts [filename]
+    (into [] (with-open [in-file (io/reader filename)]
         (->>
         (csv/parse-csv in-file)
         (sc/remove-comments)

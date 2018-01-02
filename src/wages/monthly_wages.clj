@@ -19,14 +19,15 @@
         (filter #(date-within-year-and-month? (get % :Date) year month))
         (mapv parse-times-from-workshift)
         (transform-to-monthly-wages)
+        (sort-by :id)
         (map format-workshift)
         (interpose "\n")
         (apply str)))
 
 (def ^:const ^:private workshifts
-    (parse-csv-to-workshifts))
+    (parse-csv-to-workshifts "HourList.csv"))
 
-(defn print-monthly-wages [year month]
+(defn print-monthly-wages [workshifts year month]
     "Pretty prints monthly wages with title"
     (println (str "Monthly Wages " month "/" year ":"))
-    (println (get-monthly-wages workshifts 2014 3)))
+    (println (get-monthly-wages workshifts year month)))
