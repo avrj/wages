@@ -24,9 +24,6 @@
         (interpose "\n")
         (apply str)))
 
-(def ^:const ^:private workshifts
-    (parse-csv-to-workshifts "HourList.csv"))
-
 (defn print-monthly-wages [workshifts year month]
     "Pretty prints monthly wages with title"
     (println (str "Monthly Wages " month "/" year ":"))
