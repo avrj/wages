@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.com/avrj/wages.svg?token=YppLYpdczdMFqyvXVxYa&branch=master)](https://travis-ci.com/avrj/wages)
 
-Disclaimer: Clojure isn't on top of my programming skills, but I wanted to challenge myself and get better with Clojure.
+Disclaimer: Clojure isn't on top of my programming skills, but I wanted to challenge myself and get better at Clojure.
 
 # Prerequisites
 * Leiningen
