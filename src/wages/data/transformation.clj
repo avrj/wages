@@ -20,13 +20,13 @@
         (assoc workshift :total-daily-pay total-daily-pay)))
 
 (defn construct-monthly-wage-map-from-workshift [workshift]
-    (let [monthly-wage (apply + (map :monthly-wage workshift))]
+    (let [monthly-wage (round-to-nearest-cents (apply + (map :monthly-wage workshift)))]
         {:id (get (first workshift) :id) 
         :name  (get (first workshift) :name) 
         :monthly-wage monthly-wage}))
 
 (defn overtime-for-day [[_ workshift]]
-    (let [monthly-wage (round-to-nearest-cents (apply + (map :total-daily-pay workshift)))
+    (let [monthly-wage (apply + (map :total-daily-pay workshift))
           daily-overtime-wage (calculate-overtime-wage-based-on-overtime-hours (apply + (map (fn [x] (shift-duration-in-hours (get x :Start) (get x :End))) workshift)))]
     {:id (get (first workshift) (keyword "Person ID")) 
      :name  (get (first workshift) (keyword "Person Name")) 
