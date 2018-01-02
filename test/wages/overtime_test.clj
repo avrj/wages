@@ -4,54 +4,30 @@
               [wages.domain.overtime :refer :all]
               [clj-time.core :as t]))
   
-(deftest overtime-date-test
-    (testing "Overtime date is constructed correctly when overtime starts 0 hours after regular-working-hours"
-        (is (= (overtime-date 0 (t/date-time 1986 10 2 13 30)) (t/date-time 1986 10 2 21 30)))))
-
-(deftest overtime-date-test
-    (testing "Overtime date is constructed correctly when overtime starts 3 hours after regular-working-hours"
-        (is (= (overtime-date 3 (t/date-time 1986 10 2 23 30)) (t/date-time 1986 10 3 10 30)))))
-
-(deftest overtime-hours-zero-test
-    (testing "Should be no overtime hours if workshift is in regular work hours"
-        (is (= (overtime-hours (t/date-time 2017 12 28 8) (t/date-time 2017 12 28 16) (first overtime-compensation-rates)) 0))))
-
-(deftest overtime-hours-one-test
-    (testing "Should be one overtime hour if workshift is one hour longer than regular work hours"
-        (is (= (overtime-hours (t/date-time 2017 12 28 7) (t/date-time 2017 12 28 16) (first overtime-compensation-rates)) 1))))
-
-(deftest overtime-hours-overnight-test
-    (testing "Should be one overtime hour if workshift is one hour longer than regular work hours and workshift lasts overnight"
-        (is (= (overtime-hours (t/date-time 2017 12 28 23) (t/date-time 2017 12 29 8) (first overtime-compensation-rates)) 1))))
-
-(deftest overtime-hours-zero-test-1
-    (testing "Should be no overtime hours if workshift is in regular work hours (2)"
-        (is (= (overtime-hours (t/date-time 2017 12 28 8) (t/date-time 2017 12 28 16) (second overtime-compensation-rates)) 0))))
-
-(deftest overtime-hours-one-test-1
-    (testing "Should be one overtime hour if workshift is one hour longer than regular work hours (2)"
-        (is (= (overtime-hours (t/date-time 2017 12 28 7) (t/date-time 2017 12 28 19) (second overtime-compensation-rates)) 1))))
-
-(deftest overtime-hours-overnight-test-1
-    (testing "Should be one overtime hour if workshift is one hour longer than regular work hours and workshift lasts overnight (2)"
-        (is (= (overtime-hours (t/date-time 2017 12 28 23) (t/date-time 2017 12 29 11) (second overtime-compensation-rates)) 1))))
-
-(deftest overtime-hours-zero-test-2
-    (testing "Should be no overtime hours if workshift is in regular work hours (3)"
-        (is (= (overtime-hours (t/date-time 2017 12 28 8) (t/date-time 2017 12 28 16) (nth overtime-compensation-rates 2)) 0))))
-
-(deftest overtime-hours-one-test-2
-    (testing "Should be one overtime hour if workshift is one hour longer than regular work hours (3)"
-        (is (= (overtime-hours (t/date-time 2017 12 28 7) (t/date-time 2017 12 28 20) (nth overtime-compensation-rates 2)) 1))))
-
-(deftest overtime-hours-overnight-test-2
-    (testing "Should be one overtime hour if workshift is one hour longer than regular work hours and workshift lasts overnight (3)"
-        (is (= (overtime-hours (t/date-time 2017 12 28 23) (t/date-time 2017 12 29 12) (nth overtime-compensation-rates 2)) 1))))
-
 (deftest overtime-wage-test
-    (testing "Overtime wage is calculated correctly"
-        (is (= (calculate-overtime-wage (t/date-time 2017 12 28 8)  (t/date-time 2017 12 28 17)) 1.125M))))
+    (testing "Overtime wage is calculated correctly when 7 overtime hours"
+        (is (= (calculate-overtime-wage-based-on-overtime-hours 7) 0M))))
 
-(deftest overtime-wage-zero-test
-    (testing "Should be no overtime wage if workshift is in regular work hours"
-        (is (= (calculate-overtime-wage (t/date-time 2017 12 28 8) (t/date-time 2017 12 28 16)) 0M))))
+(deftest overtime-wage-test-1
+    (testing "Overtime wage is calculated correctly when 8 overtime hours"
+        (is (= (calculate-overtime-wage-based-on-overtime-hours 8) 0M))))
+
+(deftest overtime-wage-test-2
+    (testing "Overtime wage is calculated correctly when 9 overtime hours"
+        (is (= (calculate-overtime-wage-based-on-overtime-hours 9) 1.125M))))
+
+(deftest overtime-wage-test-3
+    (testing "Overtime wage is calculated correctly when 11 overtime hours"
+        (is (= (calculate-overtime-wage-based-on-overtime-hours 11) 3.375M))))
+
+(deftest overtime-wage-test-4
+    (testing "Overtime wage is calculated correctly when 12 overtime hours"
+        (is (= (calculate-overtime-wage-based-on-overtime-hours 12) 5.625M))))
+
+(deftest overtime-wage-test-5
+    (testing "Overtime wage is calculated correctly when 13 overtime hours"
+        (is (= (calculate-overtime-wage-based-on-overtime-hours 13) 10.125M))))
+
+(deftest overtime-wage-test-6
+    (testing "Overtime wage is calculated correctly when 15 overtime hours"
+        (is (= (calculate-overtime-wage-based-on-overtime-hours 15) 19.125M))))
