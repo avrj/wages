@@ -32,13 +32,20 @@
      :name  (get (first workshift) (keyword "Person Name")) 
      :monthly-wage (+ monthly-wage daily-overtime-wage)}))
 
-(defn apply-overtime-to-monthly-wages [workshifts]
-    (map (fn [[id workshift]] (mapv overtime-for-day (group-by (fn [workshift] (t/date-time (t/year (get workshift :Start)) (t/month (get workshift :Start)) (t/day (get workshift :Start)))) workshift))) workshifts))
+(defn workshift->start-date [workshift] 
+    (let [workshift-start-date (get workshift :Start)
+          year (t/year workshift-start-date)
+          month (t/month workshift-start-date)
+          day (t/day workshift-start-date)]
+        (t/date-time year month day)))
+
+(defn apply-overtime-to-monthly-wages [[id workshift]] 
+    (mapv overtime-for-day (group-by workshift->start-date workshift)))
 
 (defn transform-to-monthly-wages [workshifts]
     (->> workshifts
         (group-by (keyword "Person ID")) 
-        (apply-overtime-to-monthly-wages)
+        (map apply-overtime-to-monthly-wages)
         (map construct-monthly-wage-map-from-workshift)))
 
 
